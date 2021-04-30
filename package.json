@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "npx jest",
+    "test:staged": "npx jest"
   },
   "keywords": [],
   "author": "",
