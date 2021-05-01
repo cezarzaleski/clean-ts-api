@@ -70,6 +70,21 @@ describe('', () => {
     expect(httpResponse.body).toEqual(new MissingParamError('password'))
   })
 
+  test('Shout return 400 if password confirmation fails', () => {
+    const { sut } = makeSut()
+    const httpResquest = {
+      body: {
+        name: 'any_name',
+        email: 'email@teste.com',
+        password: 'password',
+        passwordConfirmation: 'invalidPassword'
+      }
+    }
+    const httpResponse = sut.handle(httpResquest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new InvalidParamError('passwordConfirmation'))
+  })
+
   test('Shout return 400 if no passwordConfirmation is provide', () => {
     const { sut } = makeSut()
     const httpResquest = {
