@@ -8,7 +8,7 @@ interface SutTypes {
   emailValidatorStub: EmailValidator
 }
 
-const makeSut = (): SutTypes => {
+const makeEmailValidator = (): EmailValidator => {
   // mock stub duble para teste
   // começa testando o caminho feliz
   class EmailValidatorStub implements EmailValidator {
@@ -16,8 +16,21 @@ const makeSut = (): SutTypes => {
       return true
     }
   }
+  return new EmailValidatorStub()
+}
 
-  const emailValidator = new EmailValidatorStub()
+const makeEmailValidatorWithError = (): EmailValidator => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  class EmailValidatorStub implements EmailValidator {
+    isValid (email: string): boolean {
+      throw new Error()
+    }
+  }
+  return new EmailValidatorStub()
+}
+
+const makeSut = (): SutTypes => {
+  const emailValidator = makeEmailValidator()
   return {
     sut: new SignupController(emailValidator),
     emailValidatorStub: emailValidator
@@ -115,13 +128,7 @@ describe('', () => {
   })
 
   test('Shout return 500 if EmailValidator throws', () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    class EmailValidatorStub implements EmailValidator {
-      isValid (email: string): boolean {
-        throw new Error()
-      }
-    }
-    const emailValidatorStub = new EmailValidatorStub()
+    const emailValidatorStub = makeEmailValidatorWithError()
     const sut = new SignupController(emailValidatorStub)
     const httpResquest = {
       body: {
