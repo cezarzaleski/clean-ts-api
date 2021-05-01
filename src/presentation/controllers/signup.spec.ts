@@ -97,4 +97,20 @@ describe('', () => {
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidParamError('email'))
   })
+
+  test('Shout call EmailValidator with correct email', () => {
+    const { sut, emailValidatorStub } = makeSut()
+    // para alterar o valor de um mock em um teste específico
+    const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid')
+    const httpResquest = {
+      body: {
+        name: 'any_name',
+        email: 'email@teste.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password'
+      }
+    }
+    sut.handle(httpResquest)
+    expect(isValidSpy).toHaveBeenCalledWith('email@teste.com')
+  })
 })
