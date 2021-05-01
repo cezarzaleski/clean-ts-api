@@ -167,6 +167,24 @@ describe('', () => {
     expect(httpResponse.body).toEqual(new ServerError())
   })
 
+  test('Shout return 500 if AddAccount throws', () => {
+    const { sut, addAccountStub } = makeSut()
+    const httpResquest = {
+      body: {
+        name: 'any_name',
+        email: 'email@teste.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password'
+      }
+    }
+    jest.spyOn(addAccountStub, 'add').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const httpResponse = sut.handle(httpResquest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
+  })
+
   test('Shout call AddAccount witch correct values', () => {
     const { sut, addAccountStub } = makeSut()
     // para alterar o valor de um mock em um teste específico
