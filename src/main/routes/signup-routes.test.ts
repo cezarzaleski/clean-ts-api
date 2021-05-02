@@ -11,7 +11,7 @@ describe('SignUp Controller', () => {
   })
 
   beforeEach(async () => {
-    const accountColletion = MongoHelper.getCollection('accounts')
+    const accountColletion = await MongoHelper.getCollection('accounts')
     await accountColletion.deleteMany({})
   })
   test('Should return an account on sucesses', async () => {
