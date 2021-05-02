@@ -5,3 +5,4 @@ coverage
 requirements
 .idea
 coverage
+globalConfig.json
