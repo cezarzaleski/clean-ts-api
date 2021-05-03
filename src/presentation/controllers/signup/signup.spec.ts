@@ -12,7 +12,7 @@ interface SutTypes {
 const makeFakeRequest = (): HttpRequest => ({
   body: {
     name: 'any_name',
-    email: 'any_email@.com',
+    email: 'any_email@mail.com',
     password: 'any_password',
     passwordConfirmation: 'any_password'
   }
@@ -138,7 +138,7 @@ describe('SignUpController', () => {
     // para alterar o valor de um mock em um teste específico
     const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid')
     await sut.handle(makeFakeRequest())
-    expect(isValidSpy).toHaveBeenCalledWith('any_email@.com')
+    expect(isValidSpy).toHaveBeenCalledWith('any_email@mail.com')
   })
 
   test('Shout return 500 if EmailValidator throws', async () => {
